@@ -1,8 +1,18 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Lucky Digit 
 
-Currently, two official plugins are available:
+Lucky Digit is a lottery program which is developed for thesis.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Authors
+
+- [@Nyan Lin Htet](https://www.github.com/hong-yang-12) (Front-end)
+- Aye Min Tun (Back-end)
+- Aung Mue Thet (Back-end)
+- Wai Phyo Aung (Cyber Security)
+- Hein Htet Zan (Project Manager)
+
+
+## Demo
+
+https://lucky-digit.netlify.app/
