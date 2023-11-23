@@ -1,7 +1,7 @@
 
 # Lucky Digit 
 
-Lucky Digit is a lottery program which is developed for thesis.
+Lucky Digit is a lottery program which is developed for a thesis. This is just the front-end side of the entire project,
 
 
 ## Authors
