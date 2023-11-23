@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 
 const initialState = {
   users: null,
-  
 };
 
 export const usersSlice = createSlice({

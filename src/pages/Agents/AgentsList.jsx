@@ -1,97 +1,79 @@
 import React, { useEffect, useState } from "react";
-import {
-  useBanUserMutation,
-  useGetAllusersQuery,
-} from "../../redux/api/usersApi";
 import Cookies from "js-cookie";
 import { Button, Table } from "flowbite-react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../../redux/service/usersSlice";
-import UsersTable from "../../templates/UsersTable";
+import AgentsTable from "../../components/Agents/AgentsTable";
 import CustomHeader from "../../components/CustomHeader";
-import "../../styles/agentlist.css";
+import AgentsFooter from "../../components/Agents/AgentsFooter";
+import Drawer from "react-modern-drawer";
+import "react-modern-drawer/dist/index.css";
+import { useGetAllAgentsQuery } from "../../redux/api/agentsApi";
+import { addAgent } from "../../redux/service/agentsSlice";
 import {
-  AiOutlineRight,
-  AiOutlineLeft,
   AiOutlineSearch,
   AiOutlineClose,
   AiOutlineUpload,
 } from "react-icons/ai";
 import { BiPencil, BiTrash } from "react-icons/bi";
-import AgentsFooter from "../../components/Agents/AgentsFooter";
-import Drawer from "react-modern-drawer";
-import "react-modern-drawer/dist/index.css";
-import { useGetAllAgentsQuery } from "../../redux/api/agentsApi";
+import "../../styles/agentlist.css";
 
 const AgentsList = () => {
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const toggleDrawer = () => {
+    setOpenDrawer((prevState) => !prevState);
+  };
   const token = Cookies.get("token");
-  console.log(token);
-  // const dispatch = useDispatch();
-  const data = useGetAllAgentsQuery(token);
-  console.log(data);
+  const dispatch = useDispatch();
 
-  const [addAgentDrawer, setAddAgentDrawer] = useState(false);
-  const toggle_add_agent_drawer = () => {
-    setAddAgentDrawer((prevState) => !prevState);
-  };
+  //getAgentList
+  const { data } = useGetAllAgentsQuery(token);
+  console.log(data?.agent);
+  const agents = useSelector((state) => state?.agentsSlice.agents);
+  console.log(agents);
 
-  const [banUser] = useBanUserMutation();
-  const banHandler = async (id) => {
-    const data = await banUser(id, token);
-    console.log(data);
-  };
+  //add to slice
+  useEffect(() => {
+    dispatch(addAgent(data?.agent));
+  }, [data]);
+  console.log(agents);
 
-  // const usersList = useSelector((state) => state.usersSlice.users);
-  // useEffect(() => {
-  //   dispatch(getUsers(users?.users[0]));
-  // }, [users]);
-
-  // users?.users[0]
-
-  const rows = [];
-  // const rows = usersList?.map((user, index) => (
-  //   <Table.Row
-  //     key={user?.id}
-  //     className="bg-white dark:border-gray-700 dark:bg-gray-800"
-  //   >
-  //     <Table.Cell>{index + 1}</Table.Cell>
-  //     <Table.Cell>Photo{user?.id}</Table.Cell>
-  //     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-  //       {user?.name}
-  //     </Table.Cell>
-  //     <Table.Cell>{user?.phone}</Table.Cell>
-  //     <Table.Cell>DOB{user?.role}</Table.Cell>
-  //     <Table.Cell>NID{user?.email}</Table.Cell>
-  //     <Table.Cell>
-  //       <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
-  //         TorF{user?.status}
-  //       </span>
-  //     </Table.Cell>
-  //     {/* <Table.Cell>{user?.session}</Table.Cell> */}
-  //     {/* <Table.Cell>
-  //       <button type="button" onClick={()=>banHandler(user?.id)}>
-  //         Ban
-  //       </button>
-  //     </Table.Cell> */}
-  //     <Table.Cell className="flex">
-  //       <button
-  //         type="button"
-  //         className="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-s-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
-  //       >
-  //         <BiPencil />
-  //         <span className="sr-only">Icon description</span>
-  //       </button>
-  //       <button
-  //         type="button"
-  //         className="text-blue-700 border border-s-0 border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-e-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
-  //         onClick={() => banHandler(user?.id)}
-  //       >
-  //         <BiTrash />
-  //         <span className="sr-only">Icon description</span>
-  //       </button>
-  //     </Table.Cell>
-  //   </Table.Row>
-  // ));
+  const rows = agents?.map((user, index) => (
+    <Table.Row
+      key={user?.id}
+      className="bg-white dark:border-gray-700 dark:bg-gray-800"
+    >
+      <Table.Cell>{index + 1}</Table.Cell>
+      <Table.Cell>Photo {index + 1}</Table.Cell>
+      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+        {user?.name}
+      </Table.Cell>
+      <Table.Cell>{user?.phone}</Table.Cell>
+      <Table.Cell>data_of_birth</Table.Cell>
+      <Table.Cell>nation_id</Table.Cell>
+      <Table.Cell>
+        <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+          true
+        </span>
+      </Table.Cell>
+      <Table.Cell className="flex">
+        <button
+          type="button"
+          className="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-s-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
+        >
+          <BiPencil />
+          <span className="sr-only">Icon description</span>
+        </button>
+        <button
+          type="button"
+          className="text-blue-700 border border-s-0 border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-e-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
+          onClick={() => banHandler(user?.id)}
+        >
+          <BiTrash />
+          <span className="sr-only">Icon description</span>
+        </button>
+      </Table.Cell>
+    </Table.Row>
+  ));
 
   return (
     <div className="w-full h-screen bg-bg dark:bg-darkBg dark:text-white ">
@@ -120,37 +102,37 @@ const AgentsList = () => {
         </div>
         <Button
           className=" rounded-none bg-primary mt-2"
-          onClick={toggle_add_agent_drawer}
+          onClick={toggleDrawer}
         >
           အသစ်ထည့်ရန်
         </Button>
       </div>
       {/* Header Part2 ===// */}
-      <UsersTable rows={rows} />
+      <AgentsTable rows={rows} />
       <AgentsFooter />
 
       {/* //=== Drawer component */}
       <Drawer
-        open={addAgentDrawer}
-        onClose={toggle_add_agent_drawer}
+        open={openDrawer}
+        onClose={toggleDrawer}
         direction="right"
         size={350}
-        className=" "
+        className=""
       >
-        <div className="w-full p-4 pt-8">
+        <div className="w-full p-4">
           <div className="flex justify-between items-center">
             <h3>ကိုယ်ရေးအချက်အလက်များ</h3>
             <button
               type="button"
               className="text-dark bg-accent hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-base p-3 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              onClick={toggle_add_agent_drawer}
+              onClick={toggleDrawer}
             >
               <AiOutlineClose />
               <span className="sr-only">Icon description</span>
             </button>
           </div>
           <form>
-            <div className="my-5">
+            <div className="my-2">
               <p className="mb-3 text-sm">ပရိုဖိုင်ပုံထည့်ရန်</p>
               <div className="w-32 h-32 custom-border  rounded flex justify-center items-center">
                 <div className=" custom-border-circle w-10 h-10  flex justify-center items-center">
@@ -159,7 +141,7 @@ const AgentsList = () => {
               </div>
             </div>
             {/* name */}
-            <div className="mb-5">
+            <div className="mb-2">
               <label
                 htmlFor="name"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -175,7 +157,7 @@ const AgentsList = () => {
               />
             </div>
             {/* email */}
-            <div className="mb-5">
+            <div className="mb-2">
               <label
                 htmlFor="email"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -191,7 +173,7 @@ const AgentsList = () => {
               />
             </div>
             {/* phone */}
-            <div className="mb-5">
+            <div className="mb-2">
               <label
                 htmlFor="phone"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -207,7 +189,7 @@ const AgentsList = () => {
               />
             </div>
             {/* မွေးသက္ကရာဇ် */}
-            <div className="mb-5">
+            <div className="mb-2">
               <label
                 htmlFor="dob"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -223,7 +205,7 @@ const AgentsList = () => {
               />
             </div>
             {/* မှတ်ပုံတင်အမှတ် */}
-            <div className="mb-5">
+            <div className="mb-2">
               <label
                 htmlFor="nation_id"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -254,10 +236,7 @@ const AgentsList = () => {
                 required
               />
             </div>
-            <Button
-              type="button"
-              className=" w-full  rounded-none bg-primary mt-2"
-            >
+            <Button type="button" className=" w-full rounded-none bg-primary ">
               အသစ်ထည့်ရန်
             </Button>
           </form>

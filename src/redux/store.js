@@ -12,6 +12,7 @@ import { saleApi } from "./api/saleApi";
 import { profileApi } from "./api/profileApi";
 import { recordApi } from "./api/recordApi";
 import { sectionApi } from "./api/sectionApi";
+import agentsSlice from "./service/agentsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -27,6 +28,7 @@ export const store = configureStore({
     authSlice: authSlice,
     stateSlice: stateSlice,
     usersSlice: usersSlice,
+    agentsSlice: agentsSlice,
     saleSlice: saleSlice,
   },
   // Adding the api middleware enables caching, invalidation, polling,
