@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-// import Home from "../pages/Home";
+import toast, { Toaster } from "react-hot-toast";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import NotFound from "../pages/NotFound";
@@ -9,19 +9,13 @@ import RouteGuard from "./RouteGuard";
 import Nav from "../components/Nav";
 
 import Ban from "../pages/Ban";
-import Section from "../pages/Session";
+import Section from "../pages/Section";
 
 import AgentsList from "../pages/Agents/AgentsList";
-import CreateAgents from "../pages/Agents/CreateAgents";
 import BanAgents from "../pages/Agents/BanAgents";
 
-import Profile from "../pages/Profile/Profile";
 import EditProfile from "../pages/Profile/EditProfile";
 import ChangePassword from "../pages/Profile/ChangePassword";
-import Logout from "../pages/Profile/Logout";
-
-import UsersList from "../pages/Users/UsersList";
-import BanUsers from "../pages/Users/BanUsers";
 
 import { useLogoutMutation } from "../redux/api/authApi";
 import Cookies from "js-cookie";
@@ -50,12 +44,15 @@ const Path = () => {
   const shouldShowSidebar = () => {
     const { pathname } = location;
     // console.log(pathname);
-    return !["/login", "/register", "/login_copy"].includes(pathname);
+    return !["/login", "/register"].includes(pathname);
   };
   const handleLogout = async () => {
     const { data } = await logout(token);
     dispatch(removeUser());
-    if (data?.message) nav("/login");
+    if (data?.message) {
+      toast.success(data?.message);
+      nav("/login");
+    }
     console.log(data);
   };
 
@@ -84,22 +81,71 @@ const Path = () => {
               </RouteGuard>
             }
           />
-          <Route path="/section" element={<Section />} />
+          <Route
+            path="/section"
+            element={
+              <RouteGuard>
+                <Section />
+              </RouteGuard>
+            }
+          />
           <Route path="/ban" element={<Ban />} />
 
           {/* //=== အရောင်းစနစ် */}
-          <Route path="/sale_two_d" element={<TwoDSale />} />
-          <Route path="/sale_three_d" element={<ThreeDSale />} />
+          <Route
+            path="/sale_two_d"
+            element={
+              <RouteGuard>
+                <TwoDSale />
+              </RouteGuard>
+            }
+          />
+          <Route
+            path="/sale_three_d"
+            element={
+              <RouteGuard>
+                <ThreeDSale />
+              </RouteGuard>
+            }
+          />
           {/* အရောင်းစနစ် ===// */}
 
           {/* //=== မှတ်တမ်း */}
-          <Route path="/record_two_d" element={<TwoDRecord />} />
-          <Route path="/record_three_d" element={<ThreeDRecord />} />
+          <Route
+            path="/record_two_d"
+            element={
+              <RouteGuard>
+                <TwoDRecord />
+              </RouteGuard>
+            }
+          />
+          <Route
+            path="/record_three_d"
+            element={
+              <RouteGuard>
+                <ThreeDRecord />
+              </RouteGuard>
+            }
+          />
           {/* မှတ်တမ်း ===// */}
 
           {/* //=== စာရင်း */}
-          <Route path="/list_two_d" element={<TwoDList />} />
-          <Route path="/list_three_d" element={<ThreeDList />} />
+          <Route
+            path="/list_two_d"
+            element={
+              <RouteGuard>
+                <TwoDList />
+              </RouteGuard>
+            }
+          />
+          <Route
+            path="/list_three_d"
+            element={
+              <RouteGuard>
+                <ThreeDList />
+              </RouteGuard>
+            }
+          />
           {/* စာရင်း ===// */}
 
           {/* //=== Accounting */}
@@ -115,8 +161,22 @@ const Path = () => {
 
           {/* //=== Agents */}
           {/* <Route path="/createAgents" element={<CreateAgents />} /> */}
-          <Route path="/agentsList" element={<AgentsList />} />
-          <Route path="/banAgents" element={<BanAgents />} />
+          <Route
+            path="/agentsList"
+            element={
+              <RouteGuard>
+                <AgentsList />
+              </RouteGuard>
+            }
+          />
+          <Route
+            path="/banAgents"
+            element={
+              <RouteGuard>
+                <BanAgents />
+              </RouteGuard>
+            }
+          />
           {/* Agents ===// */}
 
           {/* //=== Profile or ဒိုင် */}
@@ -128,11 +188,25 @@ const Path = () => {
 
           {/* <Route path="/demo" element={<SignInUpNotFoundTmp />} /> */}
           {/* <Route path="/login_copy" element={<LoginCopy />} /> */}
+
+          {/* //==== Public Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          {/* <Route
+            path="/*"
+            render={() => {
+              if (token) {
+                return  <NotFound />;
+              } else {
+                return nav("/login");
+              }
+            }}
+          /> */}
           <Route path="/*" element={<NotFound />} />
+          {/* Public Routes ====// */}
         </Routes>
       </div>
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 };

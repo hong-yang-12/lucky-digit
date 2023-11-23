@@ -27,7 +27,7 @@ const SideBarBig = ({ handleLogout }) => {
       >
         {/* <div className="w-full h-4/5 flex flex-col justify-between"> */}
 
-        <div className="relative w-full bg-bg dark:bg-dark h-3/5">
+        <div className="relative w-full  dark:text-white h-3/5">
           <Sidebar.Items>
             <Sidebar.ItemGroup>
               <Sidebar.Item href="/" icon={MdGridView} onClick={() => nav("/")}>
@@ -96,15 +96,12 @@ const SideBarBig = ({ handleLogout }) => {
                 <Sidebar.Item onClick={() => nav("/changePw")}>
                   လျှို့ဝှက်နံပါတ်ပြောင်းရန်
                 </Sidebar.Item>
-                {/* <Sidebar.Item onClick={() => nav("/logoutPF")}>
-                  Logout
-                </Sidebar.Item> */}
               </Sidebar.Collapse>
               {/* Profile or ဒိုင် ===// */}
             </Sidebar.ItemGroup>
           </Sidebar.Items>
 
-          <div className="absolute -bottom-96 left-0 w-full h-56 bg-bg">
+          <div className="absolute -bottom-96 left-0 w-full h-56">
             <Button
               className=" w-full rounded-none bg-primary mt-2"
               onClick={handleLogout}

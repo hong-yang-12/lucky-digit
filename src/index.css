@@ -1,5 +1,3 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@200;300;400;600;700&display=swap"); */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -20,59 +18,36 @@ input::-webkit-inner-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
 }
-body {
-  font-family: "Noto Sans Myanmar", sans-serif;
-}
+
 html {
   scroll-behavior: smooth;
 }
 /* =========================== //Font Families ================================== */
+/* ------ Padauk --------- */
 @font-face {
-  font-family: "Noto Sans Myanmar Thin";
+  font-family: "Padauk Regular";
   font-style: normal;
-  src: url("/src/assets/fonts/Noto_Sans_Myanmar/NotoSansMyanmar-Thin.ttf");
+  src: url("/src/assets/fonts/Padauk/Padauk-Regular.ttf");
   font-display: swap;
 }
 @font-face {
-  font-family: "Noto Sans Myanmar Light";
+  font-family: "Padauk Bold";
   font-style: normal;
-  src: url("/src/assets/fonts/Noto_Sans_Myanmar/NotoSansMyanmar-Light.ttf");
+  src: url("/src/assets/fonts/Padauk/Padauk-Bold.ttf");
+  font-display: swap;
+}
+
+/* ------ Satoshi --------- */
+@font-face {
+  font-family: "Satoshi Regular";
+  font-style: normal;
+  src: url("/src/assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Regular.ttf");
   font-display: swap;
 }
 @font-face {
-  font-family: "Noto Sans Myanmar Regular";
+  font-family: "Satoshi Bold";
   font-style: normal;
-  src: url("/src/assets/fonts/Noto_Sans_Myanmar/NotoSansMyanmar-Regular.ttf");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Noto Sans Myanmar Bold";
-  font-style: normal;
-  src: url("/src/assets/fonts/Noto_Sans_Myanmar/NotoSansMyanmar-Bold.ttf");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Noto Sans Myanmar Black";
-  font-style: normal;
-  src: url("/src/assets/fonts/Noto_Sans_Myanmar/NotoSansMyanmar-Black.ttf");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Montserrat Regular";
-  font-style: normal;
-  src: url("/src/assets/fonts/Montserrat/static/Montserrat-Regular.ttf");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Montserrat Italic";
-  font-style: normal;
-  src: url("/src/assets/fonts/Montserrat/static/Montserrat-Italic.ttf");
-  font-display: swap;
-}
-@font-face {
-  font-family: "Montserrat Bold";
-  font-style: normal;
-  src: url("/src/assets/fonts/Montserrat/static/Montserrat-Bold.ttf");
+  src: url("/src/assets/fonts/Satoshi_Complete/Fonts/WEB/fonts/Satoshi-Bold.ttf");
   font-display: swap;
 }
 /* =========================== Font Families //================================== */

@@ -7,34 +7,26 @@ export default {
   ],
   theme: {
     fontFamily: {
-      sans: ["Montserrat Regular", "Noto Sans Myanmar Regular", "san-serif"],
+      sans: ["Satoshi Regular", "Padauk Regular", "san-serif"],
     },
     extend: {
       fontFamily: {
-        heading: [
-          "Montserrat Bold",
-          "Noto Sans Myanmar Regular",
-          "san-serif",
-        ],
+        heading: ["Satoshi Bold", "Padauk Regular", "san-serif"],
       },
-      // thin: ["Noto Sans Myanmar Thin", "san-serif"],
-      // light: ["Noto Sans Myanmar Light", "san-serif"],
-      // regular: ["Noto Sans Myanmar Regular", "san-serif"],
-      // bold: ["Noto Sans Myanmar Bold", "san-serif"],
-      // black: ["Noto Sans Myanmar Black", "san-serif"],
+
       colors: {
         white: "#fff",
         black: "#000",
         danger: "#DC3545",
-      
-
+        night_active: "#333A48",
+        dark_state: "#84868B",
         //lightmode
         light: "#fef08a", //yellow-200
         darkBg: "#422006", //yellow-950
-        dark: "#a16207", //yellow-700
-        bg: "#fefce8", //yellow-50
-        primary : "#3C50E0",
-        // primary: "#eab308", //yellow-500
+        dark: "#1C2434", //yellow-700
+        // bg: "#D1D5DB",
+        bg: "#ecfeff",
+        primary: "#3C50E0",
         secondary: "#6b7280", //gray-500
         bg_secondary: "#f1f5f9",
         accent: "#EFF4FB", //teal-500

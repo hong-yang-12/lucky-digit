@@ -8,8 +8,14 @@ import {
   AiOutlinePrinter,
   AiOutlineBook,
 } from "react-icons/ai";
+import Cookies from "js-cookie";
+import { useGetAllRecordQuery } from "../../redux/api/recordApi";
 
 const TwoDRecord = () => {
+  const token = Cookies.get("token");
+  const {data} = useGetAllRecordQuery(token);
+  console.log(data);
+
   const two_d_records = [
     {
       ID: "#9945",

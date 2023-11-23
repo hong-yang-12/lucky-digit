@@ -8,6 +8,10 @@ import { agentsApi } from "./api/agentsApi";
 import { usersApi } from "./api/usersApi";
 import usersSlice from "./service/usersSlice";
 import saleSlice from "./service/saleSlice";
+import { saleApi } from "./api/saleApi";
+import { profileApi } from "./api/profileApi";
+import { recordApi } from "./api/recordApi";
+import { sectionApi } from "./api/sectionApi";
 
 export const store = configureStore({
   reducer: {
@@ -15,6 +19,11 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [agentsApi.reducerPath]: agentsApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
+    [saleApi.reducerPath]: saleApi.reducer,
+    [profileApi.reducerPath]: profileApi.reducer,
+    [sectionApi.reducerPath]: sectionApi.reducer,
+    [recordApi.reducerPath]: recordApi.reducer,
+
     authSlice: authSlice,
     stateSlice: stateSlice,
     usersSlice: usersSlice,
@@ -26,7 +35,11 @@ export const store = configureStore({
     getDefaultMiddleware().concat(
       authApi.middleware,
       usersApi.middleware,
-      agentsApi.middleware
+      agentsApi.middleware,
+      saleApi.middleware,
+      profileApi.middleware,
+      sectionApi.middleware,
+      recordApi.middleware
     ),
 });
 

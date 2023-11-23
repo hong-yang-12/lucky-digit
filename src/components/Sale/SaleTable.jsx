@@ -32,6 +32,9 @@ const SaleTable = ({ rows, total_money }) => {
               <th scope="col" className="px-6 py-3 rounded-e-lg text-right">
                 ထိုးကြေး
               </th>
+              <th scope="col" className="px-6 py-3 rounded-e-lg text-right">
+                method
+              </th>
               <th scope="col" className="px-6 py-3 rounded-e-lg">
                 <span className="sr-only">edit</span>
               </th>

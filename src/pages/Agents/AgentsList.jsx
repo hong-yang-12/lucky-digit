@@ -21,16 +21,14 @@ import { BiPencil, BiTrash } from "react-icons/bi";
 import AgentsFooter from "../../components/Agents/AgentsFooter";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
+import { useGetAllAgentsQuery } from "../../redux/api/agentsApi";
 
-// import { useGetAllAgentsQuery } from "../../redux/api/agentsApi";
 const AgentsList = () => {
-  // const {data:agents} = useGetAllAgentsQuery(token);
-  // console.log(agents?.users[0]);
-
   const token = Cookies.get("token");
-  const dispatch = useDispatch();
-  const { data: users } = useGetAllusersQuery(token);
-  // console.log(users?.users[0]);
+  console.log(token);
+  // const dispatch = useDispatch();
+  const data = useGetAllAgentsQuery(token);
+  console.log(data);
 
   const [addAgentDrawer, setAddAgentDrawer] = useState(false);
   const toggle_add_agent_drawer = () => {
@@ -43,55 +41,57 @@ const AgentsList = () => {
     console.log(data);
   };
 
-  const usersList = useSelector((state) => state.usersSlice.users);
-  useEffect(() => {
-    dispatch(getUsers(users?.users[0]));
-  }, [users]);
+  // const usersList = useSelector((state) => state.usersSlice.users);
+  // useEffect(() => {
+  //   dispatch(getUsers(users?.users[0]));
+  // }, [users]);
 
   // users?.users[0]
-  const rows = usersList?.map((user, index) => (
-    <Table.Row
-      key={user?.id}
-      className="bg-white dark:border-gray-700 dark:bg-gray-800"
-    >
-      <Table.Cell>{index + 1}</Table.Cell>
-      <Table.Cell>Photo{user?.id}</Table.Cell>
-      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-        {user?.name}
-      </Table.Cell>
-      <Table.Cell>{user?.phone}</Table.Cell>
-      <Table.Cell>DOB{user?.role}</Table.Cell>
-      <Table.Cell>NID{user?.email}</Table.Cell>
-      <Table.Cell>
-        <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
-          TorF{user?.status}
-        </span>
-      </Table.Cell>
-      {/* <Table.Cell>{user?.session}</Table.Cell> */}
-      {/* <Table.Cell>
-        <button type="button" onClick={()=>banHandler(user?.id)}>
-          Ban
-        </button>
-      </Table.Cell> */}
-      <Table.Cell className="flex">
-        <button
-          type="button"
-          className="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-s-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
-        >
-          <BiPencil />
-          <span className="sr-only">Icon description</span>
-        </button>
-        <button
-          type="button"
-          className="text-blue-700 border border-s-0 border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-e-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
-          onClick={() => banHandler(user?.id)}
-        >
-          <BiTrash />
-          <span className="sr-only">Icon description</span>
-        </button>
-      </Table.Cell>
-    </Table.Row>
-  ));
+
+  const rows = [];
+  // const rows = usersList?.map((user, index) => (
+  //   <Table.Row
+  //     key={user?.id}
+  //     className="bg-white dark:border-gray-700 dark:bg-gray-800"
+  //   >
+  //     <Table.Cell>{index + 1}</Table.Cell>
+  //     <Table.Cell>Photo{user?.id}</Table.Cell>
+  //     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+  //       {user?.name}
+  //     </Table.Cell>
+  //     <Table.Cell>{user?.phone}</Table.Cell>
+  //     <Table.Cell>DOB{user?.role}</Table.Cell>
+  //     <Table.Cell>NID{user?.email}</Table.Cell>
+  //     <Table.Cell>
+  //       <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+  //         TorF{user?.status}
+  //       </span>
+  //     </Table.Cell>
+  //     {/* <Table.Cell>{user?.session}</Table.Cell> */}
+  //     {/* <Table.Cell>
+  //       <button type="button" onClick={()=>banHandler(user?.id)}>
+  //         Ban
+  //       </button>
+  //     </Table.Cell> */}
+  //     <Table.Cell className="flex">
+  //       <button
+  //         type="button"
+  //         className="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-s-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
+  //       >
+  //         <BiPencil />
+  //         <span className="sr-only">Icon description</span>
+  //       </button>
+  //       <button
+  //         type="button"
+  //         className="text-blue-700 border border-s-0 border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-e-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
+  //         onClick={() => banHandler(user?.id)}
+  //       >
+  //         <BiTrash />
+  //         <span className="sr-only">Icon description</span>
+  //       </button>
+  //     </Table.Cell>
+  //   </Table.Row>
+  // ));
 
   return (
     <div className="w-full h-screen bg-bg dark:bg-darkBg dark:text-white ">

@@ -21,6 +21,24 @@ export const usersApi = createApi({
       }),
       providesTags: ["usersApi"],
     }),
+
+    // getBanUsers: builder.query({
+    //   query: (token) => ({
+    //     url: `/ban-lists`,
+    //     headers: { authorization: `Bearer ${token}` },
+    //     method: "GET",
+    //   }),
+    //   providesTags: ["usersApi"],
+    // }),
+    getBanUsers: builder.mutation({
+      query: (token) => ({
+        url: `/ban-lists`,
+        method: `POST`,
+        headers: { authorization: `Bearer ${token}` },
+        
+      }),
+      invalidatesTags: ["usersApi"],
+    }),
     banUser: builder.mutation({
       query: ({ id, token }) => ({
         url: `user-ban/${id}`,
@@ -42,4 +60,10 @@ export const usersApi = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetAllusersQuery, useBanUserMutation,useUnbanUserMutation,useGetCurrentuserQuery } = usersApi;
+export const {
+  useGetAllusersQuery,
+  useBanUserMutation,
+  useUnbanUserMutation,
+  useGetCurrentuserQuery,
+  useGetBanUsersMutation
+} = usersApi;

@@ -1,23 +1,23 @@
 import React, { useState, useRef } from "react";
 import { useReactToPrint } from "react-to-print";
-
-import { Label, Select, Button, Modal, Radio } from "flowbite-react";
+import { Label, Select, Button, Modal, Radio, Alert } from "flowbite-react";
 import { Table } from "flowbite-react";
 import CustomHeader from "../../components/CustomHeader";
 import SaleTable from "../../components/Sale/SaleTable";
 import { BiTrashAlt } from "react-icons/bi";
-import { AiOutlineSearch } from "react-icons/ai";
 import VoucherTwoD from "../../components/Sale/VoucherTwoD";
+import { useGetBanNumberQuery } from "../../redux/api/saleApi";
+import Cookies from "js-cookie";
 
 const TwoDSale = () => {
-  const [two_d_sale, set_two_d_sale] = useState([
-    {
-      number: "03",
-      money: 1000,
-      status: "R",
-    },
+  const [two_d_array, set_two_d_array] = useState([
+    // {
+    //   number: "03",
+    //   money: 1000,
+    //   status: "R",
+    // },
   ]);
-  const [TwoDSale, setTwoDSale] = useState({
+  const [two_d, set_two_d] = useState({
     number: "",
     money: 0,
     methods: "ဒဲ့",
@@ -25,35 +25,70 @@ const TwoDSale = () => {
   const [numberOpen, setNumberOpen] = useState(false);
   const [printOpen, setPrintOpen] = useState(false);
 
+  const token = Cookies.get("token");
+  const data = useGetBanNumberQuery(token);
+  // console.log(data);
   const printRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
   });
 
   const handleOpenNumber = (e) => {
-    setTwoDSale({ ...TwoDSale, number: e.target.textContent });
+    set_two_d({ ...two_d, number: e.target.textContent });
     setNumberOpen(true);
   };
   const handleRadioChange = (event) => {
-    setTwoDSale({ ...TwoDSale, methods: event.target.value });
+    set_two_d({ ...two_d, methods: event.target.value });
   };
   const handleMoney = (e) => {
-    setTwoDSale({ ...TwoDSale, money: e.target.textContent });
+    set_two_d({ ...two_d, money: e.target.textContent });
   };
   const handleCloseNumber = () => {
-    const newData = [...two_d_sale, TwoDSale]; // Add new data item
-    set_two_d_sale(newData); // Update state variable
-    // console.log(two_d_sale);
+    //condition what if money is zero
+    if (two_d?.money === 0) {
+    }
+
+    //condition what is the method of sale (R, ဒဲ့, etc)
+    if (two_d?.methods === "ဒဲ့") {
+      const newData = [...two_d_array, two_d]; // Add new data item
+      set_two_d_array(newData); // Update state variable
+    }
+    if (two_d?.methods === "R") {
+      const reversed_num = reverse_num(two_d.number);
+      if (reversed_num == two_d.number) {
+        const new_two_d_array = [...two_d_array, two_d]; // Add new data item
+        set_two_d_array(new_two_d_array); // Update state variable
+      } else {
+        const new_two_d = {
+          number: reversed_num,
+          money: two_d?.money,
+          methods: "ဒဲ့",
+        };
+        const new_two_d_array = [...two_d_array, two_d, new_two_d]; // Add new data item
+        set_two_d_array(new_two_d_array); // Update state variable
+      }
+    }
+
+    //below //codes are the major code flow of 2D
+    // const newData = [...two_d_array, two_d]; // Add new data item
+    // set_two_d_array(newData); // Update state variable
+
     setNumberOpen(false);
+    set_two_d({ number: "", money: 0, methods: "ဒဲ့" }); //reclear values
   };
   const handleDelete = (num) => {
-    // console.log(e);
-    const newList = two_d_sale.filter((sale) => sale.number !== num);
-    set_two_d_sale(newList);
+    const newList = two_d_array.filter((sale) => sale.number !== num);
+    set_two_d_array(newList);
   };
 
+  const sale_num = [];
+  two_d_array.map((sale) => {
+    sale_num.push(sale.num);
+  });
+
+  //output rows
   let total_money = 0;
-  const rows = two_d_sale?.map((sale, index) => {
+  const rows = two_d_array?.map((sale, index) => {
     total_money += parseInt(sale?.money);
     // return (
     //   <Table.Row
@@ -85,6 +120,7 @@ const TwoDSale = () => {
           {sale?.number}
         </th>
         <td className=" px-6 py-4 text-right">{sale?.money}</td>
+        <td className=" px-6 py-4 text-right">{sale?.methods}</td>
         <td className=" px-6 py-4 ">
           <span
             onClick={() => handleDelete(sale?.number)}
@@ -105,32 +141,13 @@ const TwoDSale = () => {
     }
   });
 
+  const reverse_num = (num) => {
+    return parseInt(num.toString().split("").reverse().join(""));
+  };
+
   return (
     <div className="w-full  bg-white dark:bg-darkBg dark:text-white">
       <CustomHeader group="အရောင်းစနစ်" page="2D တင်ရန်" />
-      <div className="w-4/5 mx-auto mb-5 flex justify-between items-center py-4">
-        <div className="w-96">
-          <label
-            htmlFor="default-search"
-            className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
-          >
-            Search
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-              <AiOutlineSearch />
-            </div>
-            <input
-              type="search"
-              id="default-search"
-              className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="ရှာဖွေမည်"
-              required
-            />
-          </div>
-        </div>
-        {/* <Button className=" rounded-none bg-primary mt-2">အသစ်ထည့်ရန်</Button> */}
-      </div>
 
       <div className="w-4/5 h-[50rem] mx-auto grid grid-cols-[1fr_3fr] gap-10">
         <div className=" relative">
@@ -156,17 +173,17 @@ const TwoDSale = () => {
             </div>
 
             <SaleTable rows={rows} total_money={total_money} />
+            {/* <Toaster position="top-center" reverseOrder={false} /> */}
           </div>
 
-          {/* <div className="flex gap-5 mt-5">
-            <p> Value: {TwoDSale?.number}</p>
-            <p> Value: {TwoDSale?.money}</p>
-            <p> Value: {TwoDSale?.methods}</p>
-          </div> */}
+          <div className="flex gap-5 mt-5">
+            <p> Value: {two_d?.number}</p>
+            <p> Value: {two_d?.money}</p>
+            <p> Value: {two_d?.methods}</p>
+          </div>
 
           <button
             type="button"
-            // onClick={handlePrint}
             onClick={() => setPrintOpen(true)}
             className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-16 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
           >
@@ -180,21 +197,33 @@ const TwoDSale = () => {
             total_money={total_money}
             printRef={printRef}
             handlePrint={handlePrint}
-            two_d_sale={two_d_sale}
+            two_d_array={two_d_array}
           />
         </div>
+        {/* all number list  */}
         <div className="w-[45rem] mx-auto">
-          <ul className="grid grid-cols-10 gap-2">
-            {numbers.map((number) => (
-              <li
-                key={number}
-                className="w-16 h-16 flex justify-center items-center border border-primary rounded hover:bg-primary hover:text-white cursor-pointer"
-                onClick={handleOpenNumber}
-              >
-                {number}
-              </li>
-            ))}
-          </ul>
+          <div className="grid grid-cols-10 gap-2">
+            {numbers.map((number) => {
+              return (
+                <button
+                  key={number}
+                  className={`w-16 h-16 flex justify-center items-center border border-primary rounded hover:bg-primary hover:text-white cursor-pointer `}
+                  onClick={handleOpenNumber}
+                  type="button"
+                  // disabled={
+                  //   two_d_array.map((sale) => {
+                  //     number === sale.number;
+                  //     console.log(sale.number);
+                  //   })
+                  //     ? true
+                  //     : false
+                  // }
+                >
+                  {number}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 

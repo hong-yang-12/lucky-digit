@@ -8,11 +8,11 @@ const VoucherTwoD = ({
   setPrintOpen,
   printRef,
   handlePrint,
-  two_d_sale,
+  two_d_array,
   total_money,
 }) => {
-  // console.log(two_d_sale);
-  const rows = two_d_sale?.map((sale, index) => {
+  // console.log(two_d_array);
+  const rows = two_d_array?.map((sale, index) => {
     // total_money += parseInt(sale?.money);
     return (
       <tr key={index + 1} className="bg-white dark:bg-gray-800">
