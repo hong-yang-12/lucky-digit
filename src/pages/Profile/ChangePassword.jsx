@@ -4,6 +4,7 @@ import CustomHeader from "../../components/CustomHeader";
 import Cookies from "js-cookie";
 import { useChangePasswordMutation } from "../../redux/api/profileApi";
 import toast, { Toaster } from "react-hot-toast";
+import Loader from "../../components/Loader";
 
 const ChangePassword = () => {
   const [passwordForm, setPasswordForm] = useState({
@@ -12,7 +13,7 @@ const ChangePassword = () => {
     confirm_new_password: "",
   });
   const [errors, setErrors] = useState({});
-  const [changePassword] = useChangePasswordMutation();
+  const [changePassword,{isLoading}] = useChangePasswordMutation();
   const token = Cookies.get("token");
 
   //hanle inputs
@@ -71,6 +72,10 @@ const ChangePassword = () => {
       console.log(error);
     }
   };
+  //handle loading
+  if(isLoading){
+    <Loader/>
+  }
   return (
     <div className="w-full h-screen dark:bg-darkBg dark:text-white">
       <CustomHeader

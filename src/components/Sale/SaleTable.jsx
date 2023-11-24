@@ -41,7 +41,7 @@ const SaleTable = ({ rows, total_money }) => {
             </tr>
           </thead>
           <tbody>
-           {rows}
+            {rows}
           </tbody>
           <tfoot className="border-t border-t-primary">
             <tr className="font-semibold text-gray-900 dark:text-white">

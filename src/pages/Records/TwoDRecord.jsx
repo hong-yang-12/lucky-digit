@@ -13,7 +13,7 @@ import { useGetAllRecordQuery } from "../../redux/api/recordApi";
 
 const TwoDRecord = () => {
   const token = Cookies.get("token");
-  const {data} = useGetAllRecordQuery(token);
+  const data = useGetAllRecordQuery(token);
   console.log(data);
 
   const two_d_records = [

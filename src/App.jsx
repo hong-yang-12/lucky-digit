@@ -20,7 +20,7 @@ import { Flowbite } from "flowbite-react";
 
 const App = () => {
   return (
-    <div className=" font-sans bg-bg text-dark">
+    <div className=" font-sans bg-bg text-dark text-lg">
       {/* theme={{ theme: customTheme }} */}
       <Flowbite>
         <Path />

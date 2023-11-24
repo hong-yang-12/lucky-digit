@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useReactToPrint } from "react-to-print";
 import { Label, Select, Button, Modal, Radio, Alert } from "flowbite-react";
 import { Table } from "flowbite-react";
@@ -6,8 +6,13 @@ import CustomHeader from "../../components/CustomHeader";
 import SaleTable from "../../components/Sale/SaleTable";
 import { BiTrashAlt } from "react-icons/bi";
 import VoucherTwoD from "../../components/Sale/VoucherTwoD";
-import { useGetBanNumberQuery } from "../../redux/api/saleApi";
+// import { useGetBanNumberQuery } from "../../redux/api/saleApi";
 import Cookies from "js-cookie";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  decrementCustomMoney,
+  incrementCustomMoney,
+} from "../../redux/service/saleSlice";
 
 const TwoDSale = () => {
   const [two_d_array, set_two_d_array] = useState([
@@ -22,11 +27,12 @@ const TwoDSale = () => {
     money: 0,
     methods: "ဒဲ့",
   });
+  // const [customMoney, setCustomMoney] = useState("");
   const [numberOpen, setNumberOpen] = useState(false);
   const [printOpen, setPrintOpen] = useState(false);
 
   const token = Cookies.get("token");
-  const data = useGetBanNumberQuery(token);
+  // const data = useGetBanNumberQuery(token);
   // console.log(data);
   const printRef = useRef();
   const handlePrint = useReactToPrint({
@@ -45,29 +51,49 @@ const TwoDSale = () => {
   };
   const handleCloseNumber = () => {
     //condition what if money is zero
-    if (two_d?.money === 0) {
+    if (two_d?.money !== 0) {
+      //condition what is the method of sale (R, ဒဲ့, etc)
+      if (two_d?.methods === "ဒဲ့") {
+        const newData = [...two_d_array, two_d]; // Add new data item
+        set_two_d_array(newData); // Update state variable
+      }
+      if (two_d?.methods === "R") {
+        const reversed_num = reverse_num(two_d.number);
+        if (reversed_num == two_d.number) {
+          const new_two_d_array = [...two_d_array, two_d]; // Add new data item
+          set_two_d_array(new_two_d_array); // Update state variable
+        } else {
+          const new_two_d = {
+            number: reversed_num,
+            money: two_d?.money,
+            methods: "ဒဲ့",
+          };
+          const new_two_d_array = [...two_d_array, two_d, new_two_d]; // Add new data item
+          set_two_d_array(new_two_d_array); // Update state variable
+        }
+      }
     }
 
     //condition what is the method of sale (R, ဒဲ့, etc)
-    if (two_d?.methods === "ဒဲ့") {
-      const newData = [...two_d_array, two_d]; // Add new data item
-      set_two_d_array(newData); // Update state variable
-    }
-    if (two_d?.methods === "R") {
-      const reversed_num = reverse_num(two_d.number);
-      if (reversed_num == two_d.number) {
-        const new_two_d_array = [...two_d_array, two_d]; // Add new data item
-        set_two_d_array(new_two_d_array); // Update state variable
-      } else {
-        const new_two_d = {
-          number: reversed_num,
-          money: two_d?.money,
-          methods: "ဒဲ့",
-        };
-        const new_two_d_array = [...two_d_array, two_d, new_two_d]; // Add new data item
-        set_two_d_array(new_two_d_array); // Update state variable
-      }
-    }
+    // if (two_d?.methods === "ဒဲ့") {
+    //   const newData = [...two_d_array, two_d]; // Add new data item
+    //   set_two_d_array(newData); // Update state variable
+    // }
+    // if (two_d?.methods === "R") {
+    //   const reversed_num = reverse_num(two_d.number);
+    //   if (reversed_num == two_d.number) {
+    //     const new_two_d_array = [...two_d_array, two_d]; // Add new data item
+    //     set_two_d_array(new_two_d_array); // Update state variable
+    //   } else {
+    //     const new_two_d = {
+    //       number: reversed_num,
+    //       money: two_d?.money,
+    //       methods: "ဒဲ့",
+    //     };
+    //     const new_two_d_array = [...two_d_array, two_d, new_two_d]; // Add new data item
+    //     set_two_d_array(new_two_d_array); // Update state variable
+    //   }
+    // }
 
     //below //codes are the major code flow of 2D
     // const newData = [...two_d_array, two_d]; // Add new data item
@@ -80,6 +106,28 @@ const TwoDSale = () => {
     const newList = two_d_array.filter((sale) => sale.number !== num);
     set_two_d_array(newList);
   };
+
+  let custom_money = useSelector((state) => state?.saleSlice?.custom_money);
+  const dispatch = useDispatch();
+  const handleCustomMoney = (e) => {
+    dispatch(incrementCustomMoney(e.target.value));
+  };
+  // console.log(typeof(custom_money),custom_money);
+  const handleDeleteMoney = () => {
+    custom_money = custom_money.slice(0, -1); // Remove the last character
+      console.log(custom_money);
+  };
+
+  // let customMoney = "";
+  // const handleCustomMoney = (e) => {
+  //   customMoney += e.target.value;
+  //   console.log(customMoney);
+  // };
+  // const handleDeleteMoney = () => {
+  //   // customMoney
+  //   customMoney = customMoney.slice(0, -1); // Remove the last character
+  //   console.log(customMoney);
+  // };
 
   const sale_num = [];
   two_d_array.map((sale) => {
@@ -176,11 +224,11 @@ const TwoDSale = () => {
             {/* <Toaster position="top-center" reverseOrder={false} /> */}
           </div>
 
-          <div className="flex gap-5 mt-5">
+          {/* <div className="flex gap-5 mt-5">
             <p> Value: {two_d?.number}</p>
             <p> Value: {two_d?.money}</p>
             <p> Value: {two_d?.methods}</p>
-          </div>
+          </div> */}
 
           <button
             type="button"
@@ -342,39 +390,82 @@ const TwoDSale = () => {
             </div>
             <ul className="grid grid-cols-3 gap-3">
               <li className="p-3 border border-primary hover:bg-primary hover:text-white flex justify-center items-center col-span-3">
-                Custom
+                {custom_money ? custom_money : "Custom"}
               </li>
-              <li className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center">
+              <li
+                onClick={handleCustomMoney}
+                value="1"
+                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
+              >
                 1
               </li>
-              <li className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center">
+              <li
+                onClick={handleCustomMoney}
+                value="2"
+                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
+              >
                 2
               </li>
-              <li className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center">
+              <li
+                onClick={handleCustomMoney}
+                value="3"
+                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
+              >
                 3
               </li>
-              <li className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center">
+              <li
+                onClick={handleCustomMoney}
+                value="4"
+                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
+              >
                 4
               </li>
-              <li className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center">
+              <li
+                onClick={handleCustomMoney}
+                value="5"
+                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
+              >
                 5
               </li>
-              <li className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center">
+              <li
+                onClick={handleCustomMoney}
+                value="6"
+                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
+              >
                 6
               </li>
-              <li className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center">
+              <li
+                onClick={handleCustomMoney}
+                value="7"
+                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
+              >
                 7
               </li>
-              <li className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center">
+              <li
+                onClick={handleCustomMoney}
+                value="8"
+                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
+              >
                 8
               </li>
-              <li className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center">
+              <li
+                onClick={handleCustomMoney}
+                value="9"
+                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
+              >
                 9
               </li>
-              <li className=" border border-primary hover:bg-primary hover:text-white flex justify-center items-center col-span-2">
+              <li
+                onClick={handleCustomMoney}
+                value="0"
+                className=" border border-primary hover:bg-primary hover:text-white flex justify-center items-center col-span-2"
+              >
                 0
               </li>
-              <li className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center">
+              <li
+                onClick={handleDeleteMoney}
+                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
+              >
                 Del
               </li>
             </ul>

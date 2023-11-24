@@ -1,7 +1,7 @@
 import React from "react";
 import { Table } from "flowbite-react";
 
-const BanAgentTable = ({rows}) => {
+const BanAgentTable = ({ rows }) => {
   return (
     <Table className="w-4/5 mx-auto shadow-lg" hoverable>
       <Table.Head>
@@ -16,7 +16,17 @@ const BanAgentTable = ({rows}) => {
             <span className="sr-only">Edit</span>
           </Table.HeadCell> */}
       </Table.Head>
-      <Table.Body className="divide-y">{rows}</Table.Body>
+      <Table.Body className="divide-y">
+        {rows ? (
+          rows
+        ) : (
+          <Table.Row>
+            <Table.Cell colspan={7}>
+              <p className="text-center">There is no data yet.</p>
+            </Table.Cell>
+          </Table.Row>
+        )}
+      </Table.Body>
     </Table>
   );
 };

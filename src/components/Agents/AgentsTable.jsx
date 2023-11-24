@@ -15,7 +15,17 @@ const AgentsTable = ({ rows }) => {
           <Table.HeadCell>Status</Table.HeadCell>
           <Table.HeadCell>ပြင်ဆင်မည်</Table.HeadCell>
         </Table.Head>
-        <Table.Body className="divide-y">{rows}</Table.Body>
+        <Table.Body className="divide-y">
+          {rows ? (
+            rows
+          ) : (
+            <Table.Row>
+              <Table.Cell colspan={8}>
+                <p className="text-center">There is no data yet.</p>
+              </Table.Cell>
+            </Table.Row>
+          )}
+        </Table.Body>
       </Table>
     </>
   );

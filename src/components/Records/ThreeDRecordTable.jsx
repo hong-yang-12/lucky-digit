@@ -18,7 +18,17 @@ const ThreeDRecordTable = ({ rows }) => {
             ပြင်ဆင်မည်
           </Table.HeadCell>
         </Table.Head>
-        <Table.Body className="divide-y">{rows}</Table.Body>
+        <Table.Body className="divide-y">
+          {rows ? (
+            rows
+          ) : (
+            <Table.Row>
+              <Table.Cell colspan={7}>
+                <p className="text-center">There is no data yet.</p>
+              </Table.Cell>
+            </Table.Row>
+          )}
+        </Table.Body>
       </Table>
     </>
   );
