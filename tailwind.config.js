@@ -28,8 +28,11 @@ export default {
         bg: "#ecfeff",
         primary: "#3C50E0",
         secondary: "#6b7280", //gray-500
+        "secondary-light": "#9ca3af", //gray-400
+        "secondary-lighter": "#d1d5db",
         bg_secondary: "#f1f5f9",
         accent: "#EFF4FB", //teal-500
+        "active-btn": "#1e40af",
 
         //darkmode
       },

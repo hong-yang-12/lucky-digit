@@ -42,6 +42,7 @@ import BanAgents from "../pages/Agents/BanAgents";
 import Profile from "../pages/Profile/Profile";
 import EditProfile from "../pages/Profile/EditProfile";
 import ChangePassword from "../pages/Profile/ChangePassword";
+import Media from "../pages/Media";
 
 const Path = () => {
   // const user = JSON.parse(Cookies.get("user"));
@@ -121,6 +122,14 @@ const Path = () => {
           />
           {/* အရောင်းစနစ် ===// */}
 
+          <Route
+            path="/media"
+            element={
+              <RouteGuard>
+                <Media />
+              </RouteGuard>
+            }
+          />
           {/* //=== Ban Numbers */}
           <Route
             path="/ban_all_type"
