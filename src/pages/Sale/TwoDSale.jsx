@@ -6,22 +6,17 @@ import CustomHeader from "../../components/CustomHeader";
 import SaleTable from "../../components/Sale/SaleTable";
 import { BiTrashAlt } from "react-icons/bi";
 import VoucherTwoD from "../../components/Sale/VoucherTwoD";
-// import { useGetBanNumberQuery } from "../../redux/api/saleApi";
+import { useGetBanNumberQuery } from "../../redux/api/saleApi";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import {
   decrementCustomMoney,
   incrementCustomMoney,
 } from "../../redux/service/saleSlice";
+import TwoDSaleModal from "../../components/Sale/TwoDSaleModal";
 
 const TwoDSale = () => {
-  const [two_d_array, set_two_d_array] = useState([
-    // {
-    //   number: "03",
-    //   money: 1000,
-    //   status: "R",
-    // },
-  ]);
+  const [two_d_array, set_two_d_array] = useState([]);
   const [two_d, set_two_d] = useState({
     number: "",
     money: 0,
@@ -32,8 +27,8 @@ const TwoDSale = () => {
   const [printOpen, setPrintOpen] = useState(false);
 
   const token = Cookies.get("token");
-  // const data = useGetBanNumberQuery(token);
-  // console.log(data);
+  const data = useGetBanNumberQuery(token);
+  console.log(data);
   const printRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => printRef.current,
@@ -74,27 +69,6 @@ const TwoDSale = () => {
       }
     }
 
-    //condition what is the method of sale (R, ဒဲ့, etc)
-    // if (two_d?.methods === "ဒဲ့") {
-    //   const newData = [...two_d_array, two_d]; // Add new data item
-    //   set_two_d_array(newData); // Update state variable
-    // }
-    // if (two_d?.methods === "R") {
-    //   const reversed_num = reverse_num(two_d.number);
-    //   if (reversed_num == two_d.number) {
-    //     const new_two_d_array = [...two_d_array, two_d]; // Add new data item
-    //     set_two_d_array(new_two_d_array); // Update state variable
-    //   } else {
-    //     const new_two_d = {
-    //       number: reversed_num,
-    //       money: two_d?.money,
-    //       methods: "ဒဲ့",
-    //     };
-    //     const new_two_d_array = [...two_d_array, two_d, new_two_d]; // Add new data item
-    //     set_two_d_array(new_two_d_array); // Update state variable
-    //   }
-    // }
-
     //below //codes are the major code flow of 2D
     // const newData = [...two_d_array, two_d]; // Add new data item
     // set_two_d_array(newData); // Update state variable
@@ -115,7 +89,7 @@ const TwoDSale = () => {
   // console.log(typeof(custom_money),custom_money);
   const handleDeleteMoney = () => {
     custom_money = custom_money.slice(0, -1); // Remove the last character
-      console.log(custom_money);
+    console.log(custom_money);
   };
 
   // let customMoney = "";
@@ -221,14 +195,7 @@ const TwoDSale = () => {
             </div>
 
             <SaleTable rows={rows} total_money={total_money} />
-            {/* <Toaster position="top-center" reverseOrder={false} /> */}
           </div>
-
-          {/* <div className="flex gap-5 mt-5">
-            <p> Value: {two_d?.number}</p>
-            <p> Value: {two_d?.money}</p>
-            <p> Value: {two_d?.methods}</p>
-          </div> */}
 
           <button
             type="button"
@@ -241,7 +208,6 @@ const TwoDSale = () => {
           <VoucherTwoD
             printOpen={printOpen}
             setPrintOpen={setPrintOpen}
-            // rows={rows}
             total_money={total_money}
             printRef={printRef}
             handlePrint={handlePrint}
@@ -275,210 +241,17 @@ const TwoDSale = () => {
         </div>
       </div>
 
-      <Modal dismissible show={numberOpen} onClose={() => setNumberOpen(false)}>
-        <Modal.Body className="w-[32rem] mx-auto">
-          <div className="grid grid-cols-2 gap-5 cursor-pointer">
-            <div>
-              <div className="flex justify-evenly items-center gap-3 mb-5">
-                <div className="flex items-center gap-2">
-                  <Radio
-                    id="d"
-                    name="methods"
-                    value="ဒဲ့"
-                    onChange={handleRadioChange}
-                    defaultChecked
-                  />
-                  <Label htmlFor="d">ဒဲ့</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Radio
-                    id="r"
-                    name="methods"
-                    value="R"
-                    onChange={handleRadioChange}
-                    // defaultChecked
-                  />
-                  <Label htmlFor="r">R</Label>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Radio
-                    id="p"
-                    name="methods"
-                    value="ပတ်မည်"
-                    onChange={handleRadioChange}
-                    // defaultChecked
-                  />
-                  <Label htmlFor="p">ပတ်မည်</Label>
-                </div>
-              </div>
-
-              {/* <p>Selected Value: {selectedValue}</p> */}
-              <ul className="grid grid-cols-3 gap-3 ">
-                <li
-                  onClick={handleMoney}
-                  className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-                >
-                  100
-                </li>
-                <li
-                  onClick={handleMoney}
-                  className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-                >
-                  200
-                </li>
-                <li
-                  onClick={handleMoney}
-                  className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-                >
-                  300
-                </li>
-                <li
-                  onClick={handleMoney}
-                  className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-                >
-                  500
-                </li>
-                <li
-                  onClick={handleMoney}
-                  className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-                >
-                  800
-                </li>
-                <li
-                  onClick={handleMoney}
-                  className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-                >
-                  1000
-                </li>
-                <li
-                  onClick={handleMoney}
-                  className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-                >
-                  1200
-                </li>
-                <li
-                  onClick={handleMoney}
-                  className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-                >
-                  1500
-                </li>
-                <li
-                  onClick={handleMoney}
-                  className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-                >
-                  1800
-                </li>
-                <li
-                  onClick={handleMoney}
-                  className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-                >
-                  200
-                </li>
-                <li
-                  onClick={handleMoney}
-                  className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-                >
-                  2200
-                </li>
-                <li
-                  onClick={handleMoney}
-                  className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-                >
-                  2500
-                </li>
-              </ul>
-            </div>
-            <ul className="grid grid-cols-3 gap-3">
-              <li className="p-3 border border-primary hover:bg-primary hover:text-white flex justify-center items-center col-span-3">
-                {custom_money ? custom_money : "Custom"}
-              </li>
-              <li
-                onClick={handleCustomMoney}
-                value="1"
-                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-              >
-                1
-              </li>
-              <li
-                onClick={handleCustomMoney}
-                value="2"
-                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-              >
-                2
-              </li>
-              <li
-                onClick={handleCustomMoney}
-                value="3"
-                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-              >
-                3
-              </li>
-              <li
-                onClick={handleCustomMoney}
-                value="4"
-                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-              >
-                4
-              </li>
-              <li
-                onClick={handleCustomMoney}
-                value="5"
-                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-              >
-                5
-              </li>
-              <li
-                onClick={handleCustomMoney}
-                value="6"
-                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-              >
-                6
-              </li>
-              <li
-                onClick={handleCustomMoney}
-                value="7"
-                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-              >
-                7
-              </li>
-              <li
-                onClick={handleCustomMoney}
-                value="8"
-                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-              >
-                8
-              </li>
-              <li
-                onClick={handleCustomMoney}
-                value="9"
-                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-              >
-                9
-              </li>
-              <li
-                onClick={handleCustomMoney}
-                value="0"
-                className=" border border-primary hover:bg-primary hover:text-white flex justify-center items-center col-span-2"
-              >
-                0
-              </li>
-              <li
-                onClick={handleDeleteMoney}
-                className="w-16 h-16 border border-primary hover:bg-primary hover:text-white flex justify-center items-center"
-              >
-                Del
-              </li>
-            </ul>
-          </div>
-          <Button
-            onClick={handleCloseNumber}
-            color="light"
-            className="ms-auto mt-5"
-          >
-            နောက်တစ်ကြိမ်ထိုးမည်
-          </Button>
-        </Modal.Body>
-      </Modal>
+      <TwoDSaleModal
+        numberOpen={numberOpen}
+        setNumberOpen={setNumberOpen}
+        handleRadioChange={handleRadioChange}
+        handleMoney={handleMoney}
+        handleCustomMoney={handleCustomMoney}
+        custom_money={custom_money}
+        two_d={two_d}
+        handleDeleteMoney={handleDeleteMoney}
+        handleCloseNumber={handleCloseNumber}
+      />
     </div>
   );
 };

@@ -1,36 +1,46 @@
 import React from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { useLogoutMutation } from "../redux/api/authApi";
+import { useDispatch, useSelector } from "react-redux";
+import { removeUser } from "../redux/service/authSlice";
 import toast, { Toaster } from "react-hot-toast";
+import Cookies from "js-cookie";
+
+// Components
+import SidebarSmall from "../components/SidebarSmall";
+import SideBarBig from "../components/SideBarBig";
+import Nav from "../components/Nav";
+import Ban from "../pages/Ban";
+import RouteGuard from "./RouteGuard";
+
+// Public
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import NotFound from "../pages/NotFound";
-import RouteGuard from "./RouteGuard";
 
-import Nav from "../components/Nav";
+// Private
+import Home from "../pages/Home";
 
-import Ban from "../pages/Ban";
+import TwoDSale from "../pages/Sale/TwoDSale";
+import ThreeDSale from "../pages/Sale/ThreeDSale";
+
+import BanTwoD from "../pages/BanNumber/BanTwoD";
+import BanThreeD from "../pages/BanNumber/BanThreeD";
+import BanAllType from "../pages/BanNumber/BanAllType";
+
+import TwoDRecord from "../pages/Records/TwoDRecord";
+import ThreeDRecord from "../pages/Records/ThreeDRecord";
+
 import Section from "../pages/Section";
+
+import TwoDList from "../pages/Lists/TwoDList";
+import ThreeDList from "../pages/Lists/ThreeDList";
 
 import AgentsList from "../pages/Agents/AgentsList";
 import BanAgents from "../pages/Agents/BanAgents";
 
 import EditProfile from "../pages/Profile/EditProfile";
 import ChangePassword from "../pages/Profile/ChangePassword";
-
-import { useLogoutMutation } from "../redux/api/authApi";
-import Cookies from "js-cookie";
-import { useDispatch, useSelector } from "react-redux";
-import { removeUser } from "../redux/service/authSlice";
-import { openSidebar } from "../redux/service/stateSlice";
-import SidebarSmall from "../components/SidebarSmall";
-import SideBarBig from "../components/SideBarBig";
-import TwoDRecord from "../pages/Records/TwoDRecord";
-import ThreeDRecord from "../pages/Records/ThreeDRecord";
-import TwoDSale from "../pages/Sale/TwoDSale";
-import ThreeDSale from "../pages/Sale/ThreeDSale";
-import Home from "../pages/Home";
-import TwoDList from "../pages/Lists/TwoDList";
-import ThreeDList from "../pages/Lists/ThreeDList";
 
 const Path = () => {
   // const user = JSON.parse(Cookies.get("user"));
@@ -109,6 +119,33 @@ const Path = () => {
             }
           />
           {/* အရောင်းစနစ် ===// */}
+
+          {/* //=== Ban Numbers */}
+          <Route
+            path="/ban_all_type"
+            element={
+              <RouteGuard>
+                <BanAllType />
+              </RouteGuard>
+            }
+          />
+          <Route
+            path="/ban_two_d"
+            element={
+              <RouteGuard>
+                <BanTwoD />
+              </RouteGuard>
+            }
+          />
+          <Route
+            path="/ban_three_d"
+            element={
+              <RouteGuard>
+                <BanThreeD />
+              </RouteGuard>
+            }
+          />
+          {/* Ban Numbers ===// */}
 
           {/* //=== မှတ်တမ်း */}
           <Route

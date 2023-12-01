@@ -18,7 +18,7 @@ const Nav = ({ handleLogout }) => {
   const cookie_user = Cookies.get("user");
   const cookie_email = Cookies.get("user_email");
   let user = ""; //initial not to breakdown project
-  let user_email = "";//initial not to breakdown project
+  let user_email = ""; //initial not to breakdown project
 
   // check condition not to breakdown project
   if (cookie_user && cookie_email) {
@@ -90,9 +90,11 @@ const Nav = ({ handleLogout }) => {
             }
           >
             <Dropdown.Header>
-              <span classNameName="block text-sm">Bonnie Green</span>
+              <span className="block text-sm">
+                {user ? user : "demo"}
+              </span>
               <span className="block truncate text-sm font-medium">
-                name@flowbite.com
+                {user_email ? user_email : "demo@lucky.com"}
               </span>
             </Dropdown.Header>
             <Dropdown.Item>Dashboard</Dropdown.Item>

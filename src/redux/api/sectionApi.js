@@ -5,6 +5,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const sectionApi = createApi({
   reducerPath: "sectionApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://127.0.0.1:8000/api/v1/" }),
+  // baseQuery: fetchBaseQuery({ baseUrl: "https://ld.sankyitar.store/api/v1/" }),
   tagTypes: ["sectionApi"],
   endpoints: (builder) => ({
     createSection: builder.mutation({
@@ -16,9 +17,17 @@ export const sectionApi = createApi({
       }),
       invalidatesTags: ["sectionApi"],
     }),
+    getAllSection: builder.query({
+      query: (token) => ({
+        url: `section`,
+        method: "GET",
+        headers: { authorization: `Bearer ${token}` },
+      }),
+      providesTags: ["sectionApi"],
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useCreateSectionMutation } = sectionApi;
+export const { useCreateSectionMutation,useGetAllSectionQuery } = sectionApi;

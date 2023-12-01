@@ -5,7 +5,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const agentsApi = createApi({
   reducerPath: "agentsApi",
   baseQuery: fetchBaseQuery({ baseUrl: "http://127.0.0.1:8000/api/v1/" }),
-  // baseQuery: fetchBaseQuery({ baseUrl: "http://Id.sankyitar.store/api/v1/" }),
+  // baseQuery: fetchBaseQuery({ baseUrl: "https://ld.sankyitar.store/api/v1/" }),
   tagTypes: ["agentsApi"],
   endpoints: (builder) => ({
     getAllAgents: builder.query({
@@ -18,7 +18,7 @@ export const agentsApi = createApi({
     }),
     storeBanAgent: builder.mutation({
       query: ({ id, token }) => ({
-        url: `/agent/${id}`,
+        url: `/agent/ban/${id}`,
         method: "POST",
         headers: { authorization: `Bearer ${token}` },
       }),
@@ -26,7 +26,7 @@ export const agentsApi = createApi({
     }),
     unBanAgent: builder.mutation({
       query: ({ id, token }) => ({
-        url: `/agent/${id}`,
+        url: `/agent/unban/${id}`,
         method: "DELETE",
         headers: { authorization: `Bearer ${token}` },
       }),
@@ -34,7 +34,7 @@ export const agentsApi = createApi({
     }),
     getBanAgents: builder.query({
       query: (token) => ({
-        url: `agent/bannedAgent`,
+        url: `agent/banned`,
         method: "GET",
         headers: { authorization: `Bearer ${token}` },
       }),
@@ -49,5 +49,5 @@ export const {
   useGetAllAgentsQuery,
   useGetBanAgentsQuery,
   useStoreBanAgentMutation,
-  useUnBanAgentMutation
+  useUnBanAgentMutation,
 } = agentsApi;

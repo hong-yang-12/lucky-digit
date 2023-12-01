@@ -4,38 +4,38 @@ import CustomHeader from "../components/CustomHeader";
 import Drawer from "react-modern-drawer";
 import Cookies from "js-cookie";
 
-import { useCreateSectionMutation } from "../redux/api/sectionApi";
+import { useCreateSectionMutation, useGetAllSectionQuery } from "../redux/api/sectionApi";
 import { Button, Label, Select, Radio, Table } from "flowbite-react";
 import { AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
 import { BiPencil, BiTrash } from "react-icons/bi";
 
 const Section = () => {
-  const [sections, setSections] = useState([
-    {
-      name: "morning",
-      open_hour: 9,
-      open_minute: 0,
-      close_hour: 10,
-      close_minute: 0,
-      type: "2D",
-    },
-    {
-      name: "afternoon",
-      open_hour: 9,
-      open_minute: 0,
-      close_hour: 10,
-      close_minute: 0,
-      type: "2D",
-    },
-    {
-      name: "night",
-      open_hour: 9,
-      open_minute: 0,
-      close_hour: 10,
-      close_minute: 0,
-      type: "2D",
-    },
-  ]);
+  // const [sections, setSections] = useState([
+  //   {
+  //     name: "morning",
+  //     open_hour: 9,
+  //     open_minute: 0,
+  //     close_hour: 10,
+  //     close_minute: 0,
+  //     type: "2D",
+  //   },
+  //   {
+  //     name: "afternoon",
+  //     open_hour: 9,
+  //     open_minute: 0,
+  //     close_hour: 10,
+  //     close_minute: 0,
+  //     type: "2D",
+  //   },
+  //   {
+  //     name: "night",
+  //     open_hour: 9,
+  //     open_minute: 0,
+  //     close_hour: 10,
+  //     close_minute: 0,
+  //     type: "2D",
+  //   },
+  // ]);
   const [section, setSection] = useState({
     name: "",
     open_hour: 0,
@@ -48,6 +48,9 @@ const Section = () => {
   const [openDrawer, setOpenDrawer] = useState(false);
   const token = Cookies.get("token");
   // console.log(token);
+
+  const data = useGetAllSectionQuery(token);
+  console.log(data)
 
   //handle Drawer
   const toggleDrawer = () => {
@@ -78,42 +81,45 @@ const Section = () => {
       type: "2D",
     });
   };
+
   //iterate demo sections
-  const rows = sections?.map((section, index) => (
-    <Table.Row
-      key={index + 1}
-      className="bg-white dark:border-gray-700 dark:bg-gray-800"
-    >
-      <Table.Cell>{index + 1}</Table.Cell>
-      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-        {section?.name}
-      </Table.Cell>
-      <Table.Cell>
-        {section?.open_hour}:{section?.open_minute}
-      </Table.Cell>
-      <Table.Cell>
-        {section?.close_hour}:{section?.close_minute}
-      </Table.Cell>
-      <Table.Cell>{section?.type}</Table.Cell>
-      <Table.Cell className="flex">
-        <button
-          type="button"
-          className="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-s-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
-        >
-          <BiPencil />
-          <span className="sr-only">Icon description</span>
-        </button>
-        <button
-          type="button"
-          className="text-blue-700 border border-s-0 border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-e-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
-          onClick={() => banHandler(user?.id)}
-        >
-          <BiTrash />
-          <span className="sr-only">Icon description</span>
-        </button>
-      </Table.Cell>
-    </Table.Row>
-  ));
+  const rows=[];
+  // const rows = sections?.map((section, index) => (
+  //   <Table.Row
+  //     key={index + 1}
+  //     className="bg-white dark:border-gray-700 dark:bg-gray-800"
+  //   >
+  //     <Table.Cell>{index + 1}</Table.Cell>
+  //     <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+  //       {section?.name}
+  //     </Table.Cell>
+  //     <Table.Cell>
+  //       {section?.open_hour}:{section?.open_minute}
+  //     </Table.Cell>
+  //     <Table.Cell>
+  //       {section?.close_hour}:{section?.close_minute}
+  //     </Table.Cell>
+  //     <Table.Cell>{section?.type}</Table.Cell>
+  //     <Table.Cell className="flex">
+  //       <button
+  //         type="button"
+  //         className="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-s-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
+  //       >
+  //         <BiPencil />
+  //         <span className="sr-only">Icon description</span>
+  //       </button>
+  //       <button
+  //         type="button"
+  //         className="text-blue-700 border border-s-0 border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-e-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
+  //         onClick={() => banHandler(user?.id)}
+  //       >
+  //         <BiTrash />
+  //         <span className="sr-only">Icon description</span>
+  //       </button>
+  //     </Table.Cell>
+  //   </Table.Row>
+  // ));
+
   //initial hours and mins 
   const hours = Array.from({ length: 24 }, (value, index) => index);
   const mins = Array.from({ length: 60 }, (value, index) => index);

@@ -21,7 +21,7 @@ const BanAgentTable = ({ rows }) => {
           rows
         ) : (
           <Table.Row>
-            <Table.Cell colspan={7}>
+            <Table.Cell colSpan={7}>
               <p className="text-center">There is no data yet.</p>
             </Table.Cell>
           </Table.Row>

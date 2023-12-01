@@ -13,7 +13,7 @@ import {
   useGetAllAgentsQuery,
   useStoreBanAgentMutation,
 } from "../../redux/api/agentsApi";
-import { addAgent } from "../../redux/service/agentsSlice";
+import { addAgent, setSearchTerms } from "../../redux/service/agentsSlice";
 import {
   AiOutlineSearch,
   AiOutlineClose,
@@ -29,19 +29,20 @@ const AgentsList = () => {
   };
 
   const token = Cookies.get("token");
+  // console.log(token);
   const dispatch = useDispatch();
   const [storeBanAgent] = useStoreBanAgentMutation();
   //getAgentList
-  const { data, isLoading } = useGetAllAgentsQuery(token);
+  const { data: agent, isLoading } = useGetAllAgentsQuery(token);
   const agents = useSelector((state) => state?.agentsSlice.agents);
-  // console.log(data?.data);
-  console.log(agents);
+  console.log(agent?.agent);
+  const searchTerms = useSelector((state) => state?.agentsSlice?.searchTerms);
 
   //add to slice
   useEffect(() => {
-    dispatch(addAgent(data?.data));
-  }, [data]);
-  // console.log(agents);
+    dispatch(addAgent(agent?.agent));
+  }, [agent]);
+  console.log(agents);
 
   const banHandler = async (id) => {
     try {
@@ -57,44 +58,53 @@ const AgentsList = () => {
   if (isLoading) {
     return <Loader />;
   }
-
-  const rows = agents?.map((agent, index) => (
-    <Table.Row
-      key={agent?.id}
-      className="bg-white dark:border-gray-700 dark:bg-gray-800"
-    >
-      <Table.Cell>{index + 1}</Table.Cell>
-      <Table.Cell>Photo {index + 1}</Table.Cell>
-      <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
-        {agent?.name}
-      </Table.Cell>
-      <Table.Cell>{agent?.phone}</Table.Cell>
-      <Table.Cell>data_of_birth</Table.Cell>
-      <Table.Cell>nation_id</Table.Cell>
-      <Table.Cell>
-        <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
-          {agent?.status}
-        </span>
-      </Table.Cell>
-      <Table.Cell className="flex">
-        <button
-          type="button"
-          className="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-s-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
-        >
-          <BiPencil />
-          <span className="sr-only">Icon description</span>
-        </button>
-        <button
-          type="button"
-          className="text-blue-700 border border-s-0 border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-e-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
-          onClick={() => banHandler(agent?.id)}
-        >
-          <BiTrash />
-          <span className="sr-only">Icon description</span>
-        </button>
-      </Table.Cell>
-    </Table.Row>
-  ));
+  // const rows = []; //for breakdown
+  const rows = agents
+    ?.filter((item) => {
+      if (searchTerms === "") {
+        return item;
+      } else if (
+        item?.name.toLowerCase().includes(searchTerms?.toLocaleLowerCase())
+      )
+        return item;
+    })
+    .map((agent, index) => (
+      <Table.Row
+        key={agent?.id}
+        className="bg-white dark:border-gray-700 dark:bg-gray-800"
+      >
+        <Table.Cell>{index + 1}</Table.Cell>
+        <Table.Cell>Photo {agent?.id - 1}</Table.Cell>
+        <Table.Cell className="whitespace-nowrap font-medium text-gray-900 dark:text-white">
+          {agent?.name}
+        </Table.Cell>
+        <Table.Cell>{agent?.phone}</Table.Cell>
+        <Table.Cell>data_of_birth</Table.Cell>
+        <Table.Cell>nation_id</Table.Cell>
+        <Table.Cell>
+          <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
+            {agent?.is_banned ? "banned" : "active"}
+          </span>
+        </Table.Cell>
+        <Table.Cell className="flex">
+          <button
+            type="button"
+            className="text-blue-700 border border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-s-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
+          >
+            <BiPencil />
+            <span className="sr-only">Icon description</span>
+          </button>
+          <button
+            type="button"
+            className="text-blue-700 border border-s-0 border-blue-700 hover:bg-blue-700 hover:text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-e-lg text-sm p-2.5 text-center inline-flex items-center dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:focus:ring-blue-800 dark:hover:bg-blue-500"
+            onClick={() => banHandler(agent?.id)}
+          >
+            <BiTrash />
+            <span className="sr-only">Icon description</span>
+          </button>
+        </Table.Cell>
+      </Table.Row>
+    ));
 
   return (
     <div className="w-full h-screen bg-bg dark:bg-darkBg dark:text-white ">
@@ -117,7 +127,8 @@ const AgentsList = () => {
               id="default-search"
               className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="ရှာဖွေမည်"
-              required
+              value={searchTerms}
+              onChange={(e) => dispatch(setSearchTerms(e.target.value))}
             />
           </div>
         </div>

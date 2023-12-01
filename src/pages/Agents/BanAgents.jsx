@@ -20,11 +20,12 @@ const BanAgents = () => {
   //Get Banned Agent
   const { data: agents, isLoading } = useGetBanAgentsQuery(token);
   // console.log(agents?.data);
+  console.log(agents?.BannedUsers);
 
   //restore banned agents to unbanned agents
   const handleRestore = async (id) => {
     try {
-      const { data } = await unBanAgent({ id, token });
+      const {data} = await unBanAgent({ id, token });
       console.log(data);
       toast?.success(data?.message);
     } catch (error) {
@@ -32,7 +33,8 @@ const BanAgents = () => {
     }
   };
 
-  const rows = agents?.data?.map((agent) => (
+  // const rows = [];
+  const rows = agents?.BannedUsers?.map((agent) => (
     <Table.Row
       key={agent?.id}
       className="bg-white dark:border-gray-700 dark:bg-gray-800"
@@ -47,7 +49,8 @@ const BanAgents = () => {
 
       <Table.Cell>
         <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
-          {agent?.status}
+          {/* {agent?.status} */}
+          {agent?.is_banned ? "banned" : "active"}
         </span>
       </Table.Cell>
 
@@ -78,7 +81,7 @@ const BanAgents = () => {
       </Table.Cell>
     </Table.Row>
   ));
-  //Loading State
+  // Loading State
   if (isLoading) {
     return <Loader />;
   }

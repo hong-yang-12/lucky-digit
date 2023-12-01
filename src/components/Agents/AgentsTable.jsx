@@ -20,11 +20,12 @@ const AgentsTable = ({ rows }) => {
             rows
           ) : (
             <Table.Row>
-              <Table.Cell colspan={8}>
+              <Table.Cell colSpan={8}>
                 <p className="text-center">There is no data yet.</p>
               </Table.Cell>
             </Table.Row>
           )}
+          {/* {rows} for breakdown */} 
         </Table.Body>
       </Table>
     </>

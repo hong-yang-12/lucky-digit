@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie";
 
 const initialState = {
   agents: [],
+  searchTerms: "",
 };
 
 export const agentsSlice = createSlice({
@@ -12,8 +12,11 @@ export const agentsSlice = createSlice({
     addAgent: (state, { payload }) => {
       state.agents = payload;
     },
+    setSearchTerms: (state, { payload }) => {
+      state.searchTerms = payload;
+    },
   },
 });
 
-export const { addAgent } = agentsSlice.actions;
+export const { addAgent,setSearchTerms } = agentsSlice.actions;
 export default agentsSlice.reducer;
