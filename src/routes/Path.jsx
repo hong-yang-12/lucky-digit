@@ -39,6 +39,7 @@ import ThreeDList from "../pages/Lists/ThreeDList";
 import AgentsList from "../pages/Agents/AgentsList";
 import BanAgents from "../pages/Agents/BanAgents";
 
+import Profile from "../pages/Profile/Profile";
 import EditProfile from "../pages/Profile/EditProfile";
 import ChangePassword from "../pages/Profile/ChangePassword";
 
@@ -217,10 +218,9 @@ const Path = () => {
           {/* Agents ===// */}
 
           {/* //=== Profile or ဒိုင် */}
-          {/* <Route path="/profile" element={<Profile />} /> */}
+          <Route path="/profile" element={<Profile />} />
           <Route path="/editProfile" element={<EditProfile />} />
           <Route path="/changePw" element={<ChangePassword />} />
-          {/* <Route path="/logoutPF" element={<Logout />} /> */}
           {/* Profile or ဒိုင် ===// */}
 
           {/* <Route path="/demo" element={<SignInUpNotFoundTmp />} /> */}

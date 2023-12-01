@@ -98,6 +98,9 @@ const SideBarBig = ({ handleLogout }) => {
               {/* ကိုယ်စားလှယ် Agent ===// */}
               {/* //=== Profile or ဒိုင် */}
               <Sidebar.Collapse icon={GrUserSettings} label="ကိုယ်ရေးအချက်အလက်">
+                <Sidebar.Item onClick={() => nav("/profile")}>
+                  အသေးစိတ်
+                </Sidebar.Item>
                 <Sidebar.Item onClick={() => nav("/editProfile")}>
                   ပြင်ဆင်ရန်
                 </Sidebar.Item>
