@@ -1,6 +1,10 @@
 import React from "react";
 import { Button, Sidebar } from "flowbite-react";
-import { AiOutlineClockCircle, AiOutlineLock } from "react-icons/ai";
+import {
+  AiOutlineClockCircle,
+  AiOutlineLock,
+  AiOutlinePicture,
+} from "react-icons/ai";
 import { MdGridView } from "react-icons/md";
 import {
   HiArrowSmRight,
@@ -44,6 +48,15 @@ const SideBarBig = ({ handleLogout }) => {
                 </Sidebar.Item>
               </Sidebar.Collapse>
               {/*  အရောင်းစနစ် ===// */}
+
+              <Sidebar.Item
+                // href="/"
+                icon={AiOutlinePicture}
+                onClick={() => nav("/media")}
+              >
+                ဓာတ်ပုံ
+              </Sidebar.Item>
+
               {/* //=== Ban Number */}
               <Sidebar.Collapse icon={HiBan} label="ပယ်ထားသောဂဏန်း">
                 <Sidebar.Item onClick={() => nav("/ban_all_type")}>
