@@ -16,7 +16,7 @@ import Cookies from "js-cookie";
 const BanTwoD = () => {
   const [banNums, setBanNums] = useState([]); //ban number array in modal
   const [value, setValue] = useState(""); //adding indivitual ban number in modal
-  const [bannedNums, setBannedNums] = useState([]); //for render banned numbers
+  const [bannedNums, setBannedNums] = useState([20,10,30]); //for render banned numbers
   const [openModal, setOpenModal] = useState(false);
 
   const token = Cookies.get("token");
@@ -72,7 +72,7 @@ const BanTwoD = () => {
         </div>
 
         <div className="flex items-center gap-5">
-          <Select sizing="lg" id="session">
+          <Select sizing="md" id="session">
             <option defaultValue={true}>ပွဲချိန်ရွေးရန်</option>
             <option>နံနက်</option>
             <option>နေ့လည်</option>
@@ -80,7 +80,8 @@ const BanTwoD = () => {
           </Select>
 
           <Button
-            className=" rounded-none bg-primary mt-2"
+          color="blue"
+            className=" rounded-none mt-2"
             onClick={() => setOpenModal(true)}
           >
             အသစ်ထည့်ရန်

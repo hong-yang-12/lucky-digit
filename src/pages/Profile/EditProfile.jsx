@@ -94,7 +94,7 @@ const EditProfile = () => {
               </div>
             </div>
           </div>
-          <Button className=" ms-auto me-8" type="submit">
+          <Button color="blue" className=" ms-auto me-8" type="submit">
             ပြင်ဆင်ရန်
           </Button>
         </form>

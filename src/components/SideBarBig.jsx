@@ -127,7 +127,8 @@ const SideBarBig = ({ handleLogout }) => {
 
           <div className="absolute -bottom-96 left-0 w-full h-56">
             <Button
-              className=" w-full rounded-none bg-primary mt-2"
+              color="blue"
+              className=" w-full rounded-none mt-2"
               onClick={handleLogout}
             >
               <AiOutlineLock className="text-xl" />

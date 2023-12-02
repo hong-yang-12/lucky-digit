@@ -60,14 +60,14 @@ const Nav = ({ handleLogout }) => {
           <DarkThemeToggle />
           <button
             type="button"
-            className="text-dark bg-accent hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-base p-3 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="text-dark bg-accent hover:bg-accent-light focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-base p-3 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             <AiOutlineBell />
             <span className="sr-only">Icon description</span>
           </button>
           <button
             type="button"
-            className="relative inline-flex items-center p-3 text-base font-medium text-center text-dark bg-accent rounded-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="relative inline-flex items-center p-3 text-base font-medium text-center text-dark bg-accent rounded-full hover:bg-accent-light focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             <AiOutlineMessage />
             <span className="sr-only">Notifications</span>
@@ -90,9 +90,7 @@ const Nav = ({ handleLogout }) => {
             }
           >
             <Dropdown.Header>
-              <span className="block text-sm">
-                {user ? user : "demo"}
-              </span>
+              <span className="block text-sm">{user ? user : "demo"}</span>
               <span className="block truncate text-sm font-medium">
                 {user_email ? user_email : "demo@lucky.com"}
               </span>

@@ -29,10 +29,12 @@ export default {
         primary: "#3C50E0",
         secondary: "#6b7280", //gray-500
         "secondary-light": "#9ca3af", //gray-400
-        "secondary-lighter": "#d1d5db",
+        "secondary-lighter": "#d1d5db", //gray-300
         bg_secondary: "#f1f5f9",
         accent: "#EFF4FB", //teal-500
-        "active-btn": "#1e40af",
+        "accent-light": "#99f6e4", //teal-200
+
+        "primary-active": "#1e40af",
 
         //darkmode
       },

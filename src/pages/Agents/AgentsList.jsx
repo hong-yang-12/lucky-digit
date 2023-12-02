@@ -29,26 +29,26 @@ const AgentsList = () => {
   };
 
   const token = Cookies.get("token");
-  // console.log(token);
   const dispatch = useDispatch();
   const [storeBanAgent] = useStoreBanAgentMutation();
+
   //getAgentList
   const { data: agent, isLoading } = useGetAllAgentsQuery(token);
   const agents = useSelector((state) => state?.agentsSlice.agents);
-  console.log(agent?.agent);
+  console.log(agent?.data);
   const searchTerms = useSelector((state) => state?.agentsSlice?.searchTerms);
 
   //add to slice
   useEffect(() => {
-    dispatch(addAgent(agent?.agent));
+    dispatch(addAgent(agent?.data));
   }, [agent]);
   console.log(agents);
 
   const banHandler = async (id) => {
     try {
-      const { data } = await storeBanAgent({ id, token });
+      const {data} = await storeBanAgent({ id, token });
       console.log(data);
-      toast?.success(data?.message);
+      // toast?.success(data?.message);
     } catch (error) {
       console.log(error);
     }
@@ -133,7 +133,8 @@ const AgentsList = () => {
           </div>
         </div>
         <Button
-          className=" rounded-none bg-primary mt-2"
+          color="blue"
+          className=" rounded-none  mt-2"
           onClick={toggleDrawer}
         >
           အသစ်ထည့်ရန်
@@ -156,7 +157,7 @@ const AgentsList = () => {
             <h3>ကိုယ်ရေးအချက်အလက်များ</h3>
             <button
               type="button"
-              className="text-dark bg-accent hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-base p-3 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              className="text-dark bg-accent hover:bg-accent-light focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-base p-3 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               onClick={toggleDrawer}
             >
               <AiOutlineClose />
@@ -268,7 +269,11 @@ const AgentsList = () => {
                 required
               />
             </div>
-            <Button type="button" className=" w-full rounded-none bg-primary ">
+            <Button
+              color="blue"
+              type="button"
+              className=" w-full rounded-none  "
+            >
               အသစ်ထည့်ရန်
             </Button>
           </form>

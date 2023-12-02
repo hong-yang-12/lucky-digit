@@ -9,6 +9,14 @@ const Demo = () => {
       >
         Default
       </button>
+      
+      <Button color="blue" type="submit" disabled={isLoading && true}>
+        {isLoading ? (
+          <Spinner aria-label="Default status example" />
+        ) : (
+          "အကောင့်ဝင်မည်။"
+        )}
+      </Button>
     </div>
   );
 };
