@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { useGetUserProfileQuery } from "../../redux/api/profileApi";
 import CustomHeader from "../../components/CustomHeader";
 import { CiEdit } from "react-icons/ci";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
   const token = Cookies.get("token");
@@ -28,16 +29,22 @@ const Profile = () => {
               </div>
             </div>
             <div>
-              <h3 className="font-bold uppercase">{profile?.name ? profile?.name : "Name"}</h3>
-              <p className=" italic">{profile?.role ? profile?.role : "role"}</p>
+              <h3 className="font-bold uppercase">
+                {profile?.name ? profile?.name : "Name"}
+              </h3>
+              <p className=" italic">
+                {profile?.role ? profile?.role : "role"}
+              </p>
             </div>
           </div>
-          <button
-            type="button"
-            className="text-white bg-primary hover:bg-primary-active focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          >
-            Edit Profile
-          </button>
+          <Link to={"/editProfile"}>
+            <button
+              type="button"
+              className="text-white bg-primary hover:bg-primary-active focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+            >
+              Edit Profile
+            </button>
+          </Link>
         </header>
         <div className="pt-4">
           <p>Date of Birth : {profile?.dob ? profile?.dob : "null"} </p>
