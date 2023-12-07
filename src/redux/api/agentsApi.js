@@ -18,7 +18,7 @@ export const agentsApi = createApi({
     }),
     storeBanAgent: builder.mutation({
       query: ({ id, token }) => ({
-        url: `/agent/ban/${id}`,
+        url: `/agent/${id}`,
         method: "POST",
         headers: { authorization: `Bearer ${token}` },
       }),
@@ -26,7 +26,7 @@ export const agentsApi = createApi({
     }),
     unBanAgent: builder.mutation({
       query: ({ id, token }) => ({
-        url: `/agent/unban/${id}`,
+        url: `/agent/${id}`,
         method: "DELETE",
         headers: { authorization: `Bearer ${token}` },
       }),
@@ -34,7 +34,7 @@ export const agentsApi = createApi({
     }),
     getBanAgents: builder.query({
       query: (token) => ({
-        url: `agent/banned`,
+        url: `agent/bannedAgent`,
         method: "GET",
         headers: { authorization: `Bearer ${token}` },
       }),

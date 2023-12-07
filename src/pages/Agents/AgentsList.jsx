@@ -35,7 +35,7 @@ const AgentsList = () => {
   //getAgentList
   const { data: agent, isLoading } = useGetAllAgentsQuery(token);
   const agents = useSelector((state) => state?.agentsSlice.agents);
-  console.log(agent?.data);
+  // console.log(agent?.data);
   const searchTerms = useSelector((state) => state?.agentsSlice?.searchTerms);
 
   //add to slice
@@ -46,9 +46,9 @@ const AgentsList = () => {
 
   const banHandler = async (id) => {
     try {
-      const {data} = await storeBanAgent({ id, token });
+      const { data } = await storeBanAgent({ id, token });
       console.log(data);
-      // toast?.success(data?.message);
+      toast?.success(data?.message);
     } catch (error) {
       console.log(error);
     }
@@ -83,7 +83,7 @@ const AgentsList = () => {
         <Table.Cell>nation_id</Table.Cell>
         <Table.Cell>
           <span className="bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300">
-            {agent?.is_banned ? "banned" : "active"}
+            {agent?.status}
           </span>
         </Table.Cell>
         <Table.Cell className="flex">
