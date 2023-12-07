@@ -13,7 +13,7 @@ const ChangePassword = () => {
     confirm_new_password: "",
   });
   const [errors, setErrors] = useState({});
-  const [changePassword,{isLoading}] = useChangePasswordMutation();
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
   const token = Cookies.get("token");
 
   //hanle inputs
@@ -73,8 +73,8 @@ const ChangePassword = () => {
     }
   };
   //handle loading
-  if(isLoading){
-    <Loader/>
+  if (isLoading) {
+    <Loader />;
   }
   return (
     <div className="w-full h-screen dark:bg-darkBg dark:text-white">

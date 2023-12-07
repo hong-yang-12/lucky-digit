@@ -25,9 +25,22 @@ export const profileApi = createApi({
       }),
       invalidatesTags: ["profileApi"],
     }),
+    editUserProfile: builder.mutation({
+      query: ({ editForm, token }) => ({
+        url: `profile/edit`,
+        method: `PUT`,
+        headers: { authorization: `Bearer ${token}` },
+        body: editForm,
+      }),
+      invalidatesTags: ["profileApi"],
+    }),
   }),
 });
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useChangePasswordMutation, useGetUserProfileQuery } = profileApi;
+export const {
+  useChangePasswordMutation,
+  useGetUserProfileQuery,
+  useEditUserProfileMutation,
+} = profileApi;
