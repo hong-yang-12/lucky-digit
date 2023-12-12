@@ -89,7 +89,7 @@ const EditProfile = () => {
               <p className="mb-3 text-sm">ပရိုဖိုင်ပုံထည့်ရန်</p>
               <Label htmlFor="dropzone-file">
                 <div className="w-full h-96 custom-border hover:bg-secondary-lighter rounded flex justify-center items-center cursor-pointer">
-                  <div className="custom-border-circle w-14 h-14  hover:bg-secondary hover:border-secondary hover:text-white flex justify-center items-center">
+                  <div className="custom-border-circle w-14 h-14 text-xl hover:bg-secondary hover:border-secondary hover:text-white flex justify-center items-center">
                     <AiOutlineUpload />
                     <FileInput id="dropzone-file" className="hidden" />
                   </div>

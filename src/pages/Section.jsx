@@ -26,8 +26,8 @@ const Section = () => {
   const token = Cookies.get("token");
   // console.log(token);
 
-  const { data } = useGetAllSectionQuery(token);
-  console.log(data?.sections);
+  const { data:sections } = useGetAllSectionQuery(token);
+  console.log(sections?.sections);
 
   //handle Drawer
   const toggleDrawer = () => {
@@ -57,11 +57,12 @@ const Section = () => {
       close_minute: 0,
       type: "2D",
     });
+    setOpenDrawer((prevState) => !prevState);
   };
 
   //iterate demo sections
   // const rows = []; //for breakdown
-  const rows = data?.sections?.map((section, index) => (
+  const rows = sections?.sections?.map((section, index) => (
     <Table.Row
       key={index + 1}
       className="bg-white dark:border-gray-700 dark:bg-gray-800"
